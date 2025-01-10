@@ -1,3 +1,36 @@
-2025/01/10 05:05:07 [emerg] 5244#5244: "error_page" directive is not allowed here in /etc/nginx/nginx.conf:36
-nginx: configuration file /etc/nginx/nginx.conf test failed
+http {
+    include /etc/nginx/mime.types;
+    default_type application/octet-stream;
+
+    sendfile on;
+    keepalive_timeout 65;
+
+    server {
+        listen 80;
+        server_name fxbitcoinfastgenerator.eu;
+
+        location / {
+            proxy_pass http://127.0.0.1:8545;
+            proxy_http_version 1.1;
+            proxy_set_header Upgrade $http_upgrade;
+            proxy_set_header Connection 'upgrade';
+            proxy_set_header Host $host;
+            proxy_cache_bypass $http_upgrade;
+        }
+
+        # Fehlerseiten nur innerhalb eines server- oder location-Blocks
+        error_page 500 502 503 504 /50x.html;
+        location = /50x.html {
+            root /usr/share/nginx/html;
+        }
+    }
+}
+
+
+
+
+sudo nginx -t
+
+sudo systemctl reload nginx
+
 
