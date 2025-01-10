@@ -1,0 +1,1 @@
+2025/01/10 05:02:28 [emerg] 5171#5171: "location" directive is not allowed here in /etc/nginx/nginx.conf:32
